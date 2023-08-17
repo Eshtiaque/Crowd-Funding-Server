@@ -35,7 +35,7 @@ const dbConnect = async () => {
 dbConnect()
 
 ///database connection
-const campaign = client.db("Crowd-funding").collection("Info");
+const infoHistory = client.db("Crowd-funding").collection("Info");
 
 //get main api from here
 app.get('/', (req, res) => {
@@ -94,7 +94,8 @@ app.patch('/payment/saveAddress/:id',async(req,res)=>{
   })
 
 //------------------------------------------payment end here----------------------------------------------------------
-
+//start campaign part from here
+const campaignHistory = client.db("Crowd-funding").collection("campaign");
 
 
 
