@@ -94,10 +94,6 @@ app.patch('/payment/saveAddress/:id',async(req,res)=>{
   })
 
 //------------------------------------------payment end here----------------------------------------------------------
-//start campaign part from here
-const campaignHistory = client.db("Crowd-funding").collection("campaign");
-
-
 
 //start campaign part from here------------------------------------------
 const campaignHistory = client.db("Crowd-funding").collection("campaign");
