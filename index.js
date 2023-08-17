@@ -35,7 +35,7 @@ const dbConnect = async () => {
 dbConnect()
 
 ///database connection
-const toyCollection = client.db("Info").collection("Crowd-funding");
+const campaign = client.db("Crowd-funding").collection("Info");
 
 //get main api from here
 app.get('/', (req, res) => {
@@ -64,11 +64,13 @@ app.post('/create-payment-intent',async(req,res)=>{
 })
 
 // const paymentHistory= client.db('toyBabyDB').collection('paymentHistory');
-const paymentHistory= client.db('Payment').collection('Crowd-funding');
+const paymentHistory= client.db('Crowd-funding').collection('Payment');
 app.post("/saveAddress",async(req,res)=>{
     const data=req.body;
+    console.log(data);
     const result=await paymentHistory.insertOne(data);
     res.send(result);
+
 })
 
 app.get("/saveAddress/:id",async(req,res)=>{
