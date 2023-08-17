@@ -25,7 +25,7 @@ const client = new MongoClient(uri, {
 });
 const dbConnect = async () => {
   try {
-    client.connect();
+    // client.connect();
     console.log(" Database Connected Successfully✅ ");
 
   } catch (error) {
@@ -98,6 +98,16 @@ app.patch('/payment/saveAddress/:id',async(req,res)=>{
 
 
 
+//start campaign part from here------------------------------------------
+const campaignHistory = client.db("Crowd-funding").collection("campaign");
+app.get("/campaigns", async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const perPage = 6;
+  const skip = (page - 1) * perPage;
+
+  const campaigns = await campaignHistory.find().skip(skip).limit(perPage).toArray();
+  res.send(campaigns);
+});
 
 
 
