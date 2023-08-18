@@ -106,6 +106,25 @@ app.get("/campaigns", async (req, res) => {
   res.send(campaigns);
 });
 
+//user section it will be use in future.
+const userHistory = client.db("Crowd-funding").collection("User");
+
+app.post('/users', async (req, res) => {
+  const user = req.body;
+  console.log(user);
+  const query ={email : user.email}
+  const existingUser =await userHistory.findOne(query);
+  if(existingUser){
+    return res.send({message:'already exists'})
+  }
+  const result = await userHistory.insertOne(user);
+  res.send(result);
+})
+app.get('/users', async (req, res) => {
+  const result = await userHistory.find().toArray();
+  res.send(result);
+})
+//user section end  it will be use in future.
 
 
 
