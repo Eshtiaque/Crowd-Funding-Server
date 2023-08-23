@@ -141,7 +141,7 @@ app.patch('/payment/saveAddress/:id', async (req, res) => {
 
 //------------------------------------------payment end here----------------------------------------------------------
 
-//start campaign part from here------------------------------------------
+//----------------------------------------start campaign part from here------------------------------------------
 const campaignHistory = client.db("Crowd-funding").collection("campaign");
 app.get("/campaigns", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
@@ -151,8 +151,8 @@ app.get("/campaigns", async (req, res) => {
   const campaigns = await campaignHistory.find().skip(skip).limit(perPage).toArray();
   res.send(campaigns);
 });
-
-//event section start
+//--------------------------------------------campaign stop here-------------------------------------------
+//--------------------------------------------event section start--------------------------------------------------
 
 const eventHistory = client.db("Crowd-funding").collection("event");
 
@@ -160,9 +160,9 @@ app.get('/event', async (req, res) => {
   const result = await userHistory.find().toArray();
   res.send(result);
 })
-//event section end  
+//--------------------------------------------event section end -------------------------------------------
 
-//user section start
+//--------------------------------------------user section start-------------------------------------------
 const userCollection = client.db("Crowd-funding").collection("User");
 
 app.post('/users', async (req, res) => {
@@ -180,7 +180,7 @@ app.get('/users', async (req, res) => {
   const result = await userCollection.find().toArray();
   res.send(result);
 })
-//user section end
+//--------------------------------------------------user section end-----------------------------------------------
 
 
 
