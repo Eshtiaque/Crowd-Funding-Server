@@ -36,7 +36,7 @@ const dbConnect = async () => {
 dbConnect()
 
 ///database connection
-const infoHistory = client.db("Crowd-funding").collection("Info");
+// const infoHistory = client.db("Crowd-funding").collection("Info");
 
 //get main api from here
 app.get('/', (req, res) => {
@@ -142,7 +142,25 @@ app.get('/event', async (req, res) => {
 })
 //event section end  
 
+//user section start
+const userCollection = client.db("Crowd-funding").collection("User");
 
+app.post('/users', async (req, res) => {
+  const user = req.body;
+  console.log(user);
+  const query ={email : user.email}
+  const existingUser =await userCollection.findOne(query);
+  if(existingUser){
+    return res.send({message:'already exists'})
+  }
+  const result = await userCollection.insertOne(user);
+  res.send(result);
+})
+app.get('/users', async (req, res) => {
+  const result = await userCollection.find().toArray();
+  res.send(result);
+})
+//user section end
 
 
 
