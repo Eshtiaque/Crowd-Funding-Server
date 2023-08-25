@@ -184,6 +184,42 @@ app.get('/users', async (req, res) => {
 
 
 
+//------------------------------------------------blog section-------- digester start-----------------------------------------------
+const Blogs=client.db("Crowd-funding").collection("Blog");
+
+
+app.post("/blogs",async(req,res)=>{
+  const blog = req.body;
+  const result = await Blogs.insertOne(blog);
+  res.send(result);
+})
+
+app.get("/blogs",async(req,res)=>{
+  const result=await Blogs.find().toArray();
+  res.send(result);
+})
+
+app.get("/blogs/:id",async(req,res)=>{
+  const id=req.params.id;
+  const result = await Blogs.findOne({ _id: new ObjectId(id) });
+  res.send(result);
+})
+
+app.patch("/blogsUpdate/:id",async(req,res)=>{
+  const id = req.params.id;
+  const filter = { _id: new ObjectId(id) }
+  const option = { upsert: true }
+  const updateAction = {
+    $set: {
+      status: "approved",
+    }
+  }
+  const result = await Blogs.updateOne(filter, updateAction, option);
+  res.send(result);
+})
+
+//------------------------------------------------blog section-------- digester end-----------------------------------------------
+
 app.listen(port, () => {
   console.log(`Lets run the CROWD server site on port : ${port}`)
 })
