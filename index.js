@@ -199,6 +199,12 @@ app.get("/blogs",async(req,res)=>{
   res.send(result);
 })
 
+app.get("/blogs/:id",async(req,res)=>{
+  const id=req.params.id;
+  const result = await Blogs.findOne({ _id: new ObjectId(id) });
+  res.send(result);
+})
+
 app.patch("/blogsUpdate/:id",async(req,res)=>{
   const id = req.params.id;
   const filter = { _id: new ObjectId(id) }
