@@ -180,6 +180,33 @@ app.get('/users', async (req, res) => {
   const result = await userCollection.find().toArray();
   res.send(result);
 })
+
+app.patch("/userAction/:id",async(req,res)=>{
+  const id = req.params.id;
+  const action = req.body;
+  console.log(action)
+  const filter = { _id: new ObjectId(id) }
+  const option = { upsert: true }
+  const updateAction={
+    $set:{
+      role:action.role,
+    }
+  }
+  const result = await userCollection.updateOne(filter, updateAction, option);
+  res.send(result);
+})
+
+app.get("/users/:name", async (req, res) => {
+  const userName = req.params.name;
+  try {
+    const result = await userCollection.find({ name: { $regex: new RegExp(userName, 'i') } }).toArray();
+    res.send(result);
+  } catch {
+    console.error('Error retrieving data:', error);
+    res.status(500).send('Error retrieving data');
+  }
+});
+
 //--------------------------------------------------user section end-----------------------------------------------
 
 
@@ -207,16 +234,31 @@ app.get("/blogs/:id",async(req,res)=>{
 
 app.patch("/blogsUpdate/:id",async(req,res)=>{
   const id = req.params.id;
+  const data=req.body;
   const filter = { _id: new ObjectId(id) }
   const option = { upsert: true }
   const updateAction = {
     $set: {
-      status: "approved",
+      status: data.status,
     }
   }
   const result = await Blogs.updateOne(filter, updateAction, option);
   res.send(result);
 })
+
+
+app.get("/blogsSearch/:name", async (req, res) => {
+  const userName = req.params.name; // Corrected to use req.params.name
+    try {
+    const result = await Blogs.find({ name: { $regex: new RegExp(userName, 'i') } }).toArray();
+    res.send(result);
+  } catch {
+    console.error('Error retrieving data:', error);
+    res.status(500).send('Error retrieving data');
+  }
+
+});
+
 
 //------------------------------------------------blog section-------- digester end-----------------------------------------------
 
