@@ -119,6 +119,23 @@ app.post("/saveAddress", async (req, res) => {
 
 })
 
+app.get("/paymentHistory", async (req, res) => {
+  const result = await paymentHistory.find().toArray();
+  res.send(result);
+})
+
+app.get("/paymentHistory/:name", async (req, res) => {
+  const userName = req.params.name; // Corrected to use req.params.name
+  try {
+    const result = await paymentHistory.find({ name: { $regex: new RegExp(userName, 'i') } }).toArray();
+    res.send(result);
+  } catch {
+    console.error('Error retrieving data:', error);
+    res.status(500).send('Error retrieving data');
+  }
+})
+
+
 app.get("/saveAddress/:id", async (req, res) => {
   const id = req.params.id;
   const result = await paymentHistory.findOne({ _id: new ObjectId(id) });
@@ -151,13 +168,25 @@ app.get("/campaigns", async (req, res) => {
   const campaigns = await campaignHistory.find().skip(skip).limit(perPage).toArray();
   res.send(campaigns);
 });
+
+app.get("/campaigns/:id", async (req, res) => {
+  const id = req.params.id;
+  const result = await campaignHistory.findOne({ _id: new ObjectId(id) });
+  res.send(result);
+})
+
+
+
+
+
+
 //--------------------------------------------campaign stop here-------------------------------------------
 //--------------------------------------------event section start--------------------------------------------------
 
 const eventHistory = client.db("Crowd-funding").collection("event");
 
 app.get('/event', async (req, res) => {
-  const result = await userHistory.find().toArray();
+  const result = await eventHistory.find().toArray();
   res.send(result);
 })
 //--------------------------------------------event section end -------------------------------------------
@@ -168,10 +197,10 @@ const userCollection = client.db("Crowd-funding").collection("User");
 app.post('/users', async (req, res) => {
   const user = req.body;
   console.log(user);
-  const query ={email : user.email}
-  const existingUser =await userCollection.findOne(query);
-  if(existingUser){
-    return res.send({message:'already exists'})
+  const query = { email: user.email }
+  const existingUser = await userCollection.findOne(query);
+  if (existingUser) {
+    return res.send({ message: 'already exists' })
   }
   const result = await userCollection.insertOne(user);
   res.send(result);
@@ -181,15 +210,15 @@ app.get('/users', async (req, res) => {
   res.send(result);
 })
 
-app.patch("/userAction/:id",async(req,res)=>{
+app.patch("/userAction/:id", async (req, res) => {
   const id = req.params.id;
   const action = req.body;
   console.log(action)
   const filter = { _id: new ObjectId(id) }
   const option = { upsert: true }
-  const updateAction={
-    $set:{
-      role:action.role,
+  const updateAction = {
+    $set: {
+      role: action.role,
     }
   }
   const result = await userCollection.updateOne(filter, updateAction, option);
@@ -212,29 +241,29 @@ app.get("/users/:name", async (req, res) => {
 
 
 //------------------------------------------------blog section-------- digester start-----------------------------------------------
-const Blogs=client.db("Crowd-funding").collection("Blog");
+const Blogs = client.db("Crowd-funding").collection("Blog");
 
 
-app.post("/blogs",async(req,res)=>{
+app.post("/blogs", async (req, res) => {
   const blog = req.body;
   const result = await Blogs.insertOne(blog);
   res.send(result);
 })
 
-app.get("/blogs",async(req,res)=>{
-  const result=await Blogs.find().toArray();
+app.get("/blogs", async (req, res) => {
+  const result = await Blogs.find().toArray();
   res.send(result);
 })
 
-app.get("/blogs/:id",async(req,res)=>{
-  const id=req.params.id;
+app.get("/blogs/:id", async (req, res) => {
+  const id = req.params.id;
   const result = await Blogs.findOne({ _id: new ObjectId(id) });
   res.send(result);
 })
 
-app.patch("/blogsUpdate/:id",async(req,res)=>{
+app.patch("/blogsUpdate/:id", async (req, res) => {
   const id = req.params.id;
-  const data=req.body;
+  const data = req.body;
   const filter = { _id: new ObjectId(id) }
   const option = { upsert: true }
   const updateAction = {
@@ -249,7 +278,7 @@ app.patch("/blogsUpdate/:id",async(req,res)=>{
 
 app.get("/blogsSearch/:name", async (req, res) => {
   const userName = req.params.name; // Corrected to use req.params.name
-    try {
+  try {
     const result = await Blogs.find({ name: { $regex: new RegExp(userName, 'i') } }).toArray();
     res.send(result);
   } catch {
