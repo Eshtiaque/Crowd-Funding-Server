@@ -190,6 +190,12 @@ app.get("/campaigns", async (req, res) => {
   res.send(campaigns);
 });
 
+app.get('/aCampaign', async (req, res) => { 
+  const result = await campaignHistory.find().toArray()
+  res.send(result);
+})
+
+
 app.get("/campaigns/:id", async (req, res) => {
   const id = req.params.id;
   const result = await campaignHistory.findOne({ _id: new ObjectId(id) });
