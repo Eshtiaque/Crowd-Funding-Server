@@ -88,6 +88,19 @@ const verifyAdmin = async (req, res, next) => {
   next();
 }
 
+app.get('/users/admin/:email', verifyJWT, async (req, res) => {
+  const email = req.params.email;
+
+  if (req.decoded.email !== email) {
+    res.send({ admin: false })
+  }
+
+  const query = { email: email }
+  const user = await userCollection.findOne(query);
+  const result = { admin: user?.role === 'admin' }
+  res.send(result);
+})
+
 
 //----------------------------------------------Admin Verify implementation end ------------------------------------------
 
@@ -113,7 +126,7 @@ app.post('/create-payment-intent', async (req, res) => {
 const paymentHistory = client.db('Crowd-funding').collection('Payment');
 app.post("/saveAddress", async (req, res) => {
   const data = req.body;
-  console.log(data);
+  // console.log(data);
   const result = await paymentHistory.insertOne(data);
   res.send(result);
 
@@ -156,6 +169,14 @@ app.patch('/payment/saveAddress/:id', async (req, res) => {
   res.send(result);
 })
 
+
+app.get("/payment/:email",async(req,res)=>{
+  const email = req.params.email;
+  // console.log(email)
+  const result = await paymentHistory.find({ email: email }).toArray();
+  res.send(result);
+})
+
 //------------------------------------------payment end here----------------------------------------------------------
 
 //----------------------------------------start campaign part from here------------------------------------------
@@ -175,9 +196,18 @@ app.get("/campaigns/:id", async (req, res) => {
   res.send(result);
 })
 
+app.post("/campaignsAdd", async (req, res) => {
+  const data = req.body;
+  const result = await campaignHistory.insertOne(data);
+  res.send(result);
+})
 
-
-
+app.get("/individualCampaign/:email", async (req, res) => {
+  const email = req.params.email;
+  // console.log(email)
+  const result = await campaignHistory.find({ email: email }).toArray();
+  res.send(result);
+})
 
 
 //--------------------------------------------campaign stop here-------------------------------------------
@@ -189,6 +219,28 @@ app.get('/event', async (req, res) => {
   const result = await eventHistory.find().toArray();
   res.send(result);
 })
+
+
+app.post("/eventAdd", async (req, res) => {
+  const data = req.body;
+  const result = await eventHistory.insertOne(data);
+  res.send(result);
+})
+
+app.get("/individualEvent/:email", async (req, res) => {
+  const email = req.params.email;
+  // console.log(email)
+  const result = await eventHistory.find({ email: email }).toArray();
+  res.send(result);
+})
+
+
+
+
+
+
+
+
 //--------------------------------------------event section end -------------------------------------------
 
 //--------------------------------------------user section start-------------------------------------------
@@ -196,7 +248,7 @@ const userCollection = client.db("Crowd-funding").collection("User");
 
 app.post('/users', async (req, res) => {
   const user = req.body;
-  console.log(user);
+  // console.log(user);
   const query = { email: user.email }
   const existingUser = await userCollection.findOne(query);
   if (existingUser) {
@@ -213,7 +265,7 @@ app.get('/users', async (req, res) => {
 app.patch("/userAction/:id", async (req, res) => {
   const id = req.params.id;
   const action = req.body;
-  console.log(action)
+  // console.log(action)
   const filter = { _id: new ObjectId(id) }
   const option = { upsert: true }
   const updateAction = {
@@ -242,6 +294,22 @@ app.get("/users/:name", async (req, res) => {
 
 //------------------------------------------------blog section-------- digester start-----------------------------------------------
 const Blogs = client.db("Crowd-funding").collection("Blog");
+
+
+
+
+
+app.post("/blogAdd", async (req, res) => {
+  const data = req.body;
+  const result = await Blogs.insertOne(data);
+  res.send(result);
+})
+app.get("/individualBLogs/:email", async (req, res) => {
+  const email = req.params.email;
+  // console.log(email)
+  const result = await Blogs.find({ email: email }).toArray();
+  res.send(result);
+})
 
 
 app.post("/blogs", async (req, res) => {
