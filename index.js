@@ -88,6 +88,19 @@ const verifyAdmin = async (req, res, next) => {
   next();
 }
 
+app.get('/users/admin/:email',verifyJWT, async (req, res) => {
+  const email = req.params.email;
+
+  if (req.decoded.email !== email) {
+    res.send({ admin: false })
+  }
+
+  const query = { email: email }
+  const user = await userCollection.findOne(query);
+  const result = { admin: user?.role === 'admin' }
+  res.send(result);
+})
+
 
 //----------------------------------------------Admin Verify implementation end ------------------------------------------
 
