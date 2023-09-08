@@ -191,7 +191,9 @@ app.get("/campaigns", async (req, res) => {
 });
 
 app.get('/aCampaign', async (req, res) => {
-  const result = await campaignHistory.find().toArray();
+
+  const result = await campaignHistory.find().toArray()
+
   res.send(result);
 });
 
@@ -206,6 +208,22 @@ app.post("/campaignsAdd", async (req, res) => {
   const data = req.body;
   const result = await campaignHistory.insertOne(data);
   res.send(result);
+})
+// to get all campaigns
+app.get("/campaignsAdd", async (req, res) => {
+  const result = await campaignHistory.find().toArray()
+  res.send(result)
+})
+
+// to delete from campaign notification
+app.delete('/campaignsAdd/:id', async (req, res) => {
+  const id = req.params.id
+  const query = { _id: new ObjectId(id) };
+  const result = await campaignHistory.deleteOne(query)
+  res.send(result)
+})
+
+
 });
 
 app.get("/individualCampaign/:email", async (req, res) => {
@@ -213,6 +231,8 @@ app.get("/individualCampaign/:email", async (req, res) => {
   // console.log(email)
   const result = await campaignHistory.find({ email: email }).toArray();
   res.send(result);
+
+})
 });
 
 // new
