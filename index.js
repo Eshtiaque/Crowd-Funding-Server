@@ -88,7 +88,7 @@ const verifyAdmin = async (req, res, next) => {
   next();
 }
 
-app.get('/users/admin/:email', verifyJWT, async (req, res) => {
+app.get('/users/admin/:email', verifyJWT,verifyAdmin, async (req, res) => {
   const email = req.params.email;
 
   if (req.decoded.email !== email) {
@@ -268,7 +268,7 @@ app.get('/users', async (req, res) => {
   res.send(result);
 })
 
-app.patch("/userAction/:id", async (req, res) => {
+app.patch("/userAction/:id",verifyJWT,verifyAdmin, async (req, res) => {
   const id = req.params.id;
   const action = req.body;
   // console.log(action)
