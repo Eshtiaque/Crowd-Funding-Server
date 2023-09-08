@@ -88,7 +88,7 @@ const verifyAdmin = async (req, res, next) => {
   next();
 };
 
-app.get('/users/admin/:email', verifyJWT, verifyAdmin, async (req, res) => {
+app.get('/users/admin/:email', verifyJWT, async (req, res) => {
   const email = req.params.email;
 
   if (req.decoded.email !== email) {
