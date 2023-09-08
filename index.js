@@ -214,7 +214,7 @@ app.get("/individualCampaign/:email", async (req, res) => {
   const result = await campaignHistory.find({ email: email }).toArray();
   res.send(result);
 })
-app.patch("/individualCampaign/:id",async(req,res)=>{
+app.patch("/individualCampaign/:id",verifyJWT,verifyAdmin,async(req,res)=>{
   const id=req.params.id;
 
   const data = req.body;
