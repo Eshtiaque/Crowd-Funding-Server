@@ -88,7 +88,7 @@ const verifyAdmin = async (req, res, next) => {
   next();
 }
 
-app.get('/users/admin/:email', verifyJWT,verifyAdmin, async (req, res) => {
+app.get('/users/admin/:email', verifyJWT, verifyAdmin, async (req, res) => {
   const email = req.params.email;
 
   if (req.decoded.email !== email) {
@@ -170,7 +170,7 @@ app.patch('/payment/saveAddress/:id', async (req, res) => {
 })
 
 
-app.get("/payment/:email",async(req,res)=>{
+app.get("/payment/:email", async (req, res) => {
   const email = req.params.email;
   // console.log(email)
   const result = await paymentHistory.find({ email: email }).toArray();
@@ -190,7 +190,7 @@ app.get("/campaigns", async (req, res) => {
   res.send(campaigns);
 });
 
-app.get('/aCampaign', async (req, res) => { 
+app.get('/aCampaign', async (req, res) => {
   const result = await campaignHistory.find().toArray()
   res.send(result);
 })
@@ -207,6 +207,20 @@ app.post("/campaignsAdd", async (req, res) => {
   const result = await campaignHistory.insertOne(data);
   res.send(result);
 })
+// to get all campaigns
+app.get("/campaignsAdd", async (req, res) => {
+  const result = await campaignHistory.find().toArray()
+  res.send(result)
+})
+
+// to delete from campaign notification
+app.delete('/campaignsAdd/:id', async (req, res) => {
+  const id = req.params.id
+  const query = { _id: new ObjectId(id) };
+  const result = await campaignHistory.deleteOne(query)
+  res.send(result)
+})
+
 
 app.get("/individualCampaign/:email", async (req, res) => {
   const email = req.params.email;
@@ -214,8 +228,8 @@ app.get("/individualCampaign/:email", async (req, res) => {
   const result = await campaignHistory.find({ email: email }).toArray();
   res.send(result);
 })
-app.patch("/individualCampaign/:id",verifyJWT,verifyAdmin,async(req,res)=>{
-  const id=req.params.id;
+app.patch("/individualCampaign/:id", verifyJWT, verifyAdmin, async (req, res) => {
+  const id = req.params.id;
 
   const data = req.body;
   // console.log(action)
@@ -283,7 +297,7 @@ app.get('/users', async (req, res) => {
   res.send(result);
 })
 
-app.patch("/userAction/:id",verifyJWT,verifyAdmin, async (req, res) => {
+app.patch("/userAction/:id", verifyJWT, verifyAdmin, async (req, res) => {
   const id = req.params.id;
   const action = req.body;
   // console.log(action)
