@@ -214,6 +214,21 @@ app.get("/individualCampaign/:email", async (req, res) => {
   const result = await campaignHistory.find({ email: email }).toArray();
   res.send(result);
 })
+app.patch("/individualCampaign/:id",async(req,res)=>{
+  const id=req.params.id;
+
+  const data = req.body;
+  // console.log(action)
+  const filter = { _id: new ObjectId(id) }
+  const option = { upsert: true }
+  const updateAction = {
+    $set: {
+      status: data.status,
+    }
+  }
+  const result = await campaignHistory.updateOne(filter, updateAction, option);
+  res.send(result);
+})
 
 
 //--------------------------------------------campaign stop here-------------------------------------------
