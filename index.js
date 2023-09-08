@@ -224,7 +224,7 @@ app.delete('/campaignsAdd/:id', async (req, res) => {
 })
 
 
-});
+
 
 app.get("/individualCampaign/:email", async (req, res) => {
   const email = req.params.email;
@@ -233,7 +233,7 @@ app.get("/individualCampaign/:email", async (req, res) => {
   res.send(result);
 
 })
-});
+
 
 // new
 app.patch("/individualCampaign/:id", verifyJWT, verifyAdmin, async (req, res) => {
