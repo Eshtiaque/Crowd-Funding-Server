@@ -3,7 +3,10 @@ const router=express.Router();
 const client=require("../mongoDB/MongoDB");
 const {verifyJWT,verifyAdmin}=require("../Authorization/Authorization");
 const { ObjectId } = require("bson");
-const Blogs = client.db("Crowd-funding").collection("Blog");
+
+
+const Blogs = client.db("Crowd-funding").collection("Project");
+
 router.post("/blogAdd", async (req, res) => {
   const data = req.body;
   const result = await Blogs.insertOne(data);
