@@ -3,6 +3,7 @@ const router=express.Router();
 // const client=require("../mongoDB/MongoDB");
 const client=require("../mongoDB/MongoDB");
 const {verifyJWT,verifyAdmin}=require("../Authorization/Authorization");
+const { ObjectId } = require("mongodb");
 
 //post data to database
 
@@ -30,7 +31,6 @@ router.get('/allSocialPost', async (req, res) => {
   const result = await cursor.toArray();
   res.send(result);
 })
-
 
 //get single details data from all data
 router.get('/allSocialPost/:id', async (req, res) => {
