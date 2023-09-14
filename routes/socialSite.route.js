@@ -5,6 +5,7 @@ const client=require("../mongoDB/MongoDB");
 const {verifyJWT,verifyAdmin}=require("../Authorization/Authorization");
 const { ObjectId } = require("mongodb");
 
+
 //post data to database
 
 const socialBlogHistory = client.db('Crowd-funding').collection('Social-Post-Blog');
