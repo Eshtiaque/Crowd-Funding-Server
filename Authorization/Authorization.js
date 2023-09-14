@@ -50,4 +50,4 @@ router.post('/jwt', (req, res) => {
   });
 
   
-  module.exports={verifyJWT,verifyAdmin};
+  module.exports={verifyJWT,verifyAdmin,router};
