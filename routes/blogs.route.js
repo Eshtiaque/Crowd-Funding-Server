@@ -2,6 +2,8 @@ const express=require("express");
 const router=express.Router();
 const client=require("../mongoDB/MongoDB");
 const {verifyJWT,verifyAdmin}=require("../Authorization/Authorization");
+const { ObjectId } = require("bson");
+
 
 const Blogs = client.db("Crowd-funding").collection("Project");
 
@@ -30,9 +32,19 @@ router.get("/blogs", async (req, res) => {
 });
 
 router.get("/blogs/:id", async (req, res) => {
+  // const id = req.params.id;
+  // const result = await Blogs.findOne({ _id: new ObjectId(id) });
+  // res.send(result);
+
   const id = req.params.id;
-  const result = await Blogs.findOne({ _id: new ObjectId(id) });
-  res.send(result);
+
+if (!ObjectId.isValid(id)) {
+  return res.status(400).send('Invalid id format');
+}
+
+const result = await Blogs.findOne({ _id: new ObjectId(id) });
+res.send(result);
+
 });
 
 router.patch("/blogsUpdate/:id", async (req, res) => {
