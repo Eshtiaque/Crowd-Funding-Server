@@ -27,7 +27,7 @@ router.post('/addSocialPostBlog', async (req, res) => {
 
 //get all data from database
 router.get('/allSocialPost', async (req, res) => {
-  const cursor = socialBlogHistory.find();
+  const cursor = socialBlogHistory.find().sort({ date: -1 });
   const result = await cursor.toArray();
   res.send(result);
 })
