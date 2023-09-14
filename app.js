@@ -12,6 +12,7 @@ const blogsRouter=require("./routes/blogs.route");
 const campaignRouter=require("./routes/campaign.route");
 const eventRouter=require("./routes/events.route");
 const socialRouter=require("./routes/socialSite.route");
+const {router}=require("./Authorization/Authorization");
 
 async function run() {
     try {
@@ -22,6 +23,7 @@ async function run() {
         app.use(campaignRouter);
         app.use(eventRouter);
         app.use(socialRouter);
+        app.use(router);
       await client.db("admin").command({ ping: 1 });
       console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
