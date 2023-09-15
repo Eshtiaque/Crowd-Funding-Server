@@ -38,7 +38,7 @@ const sendEmailToUser = subscribers => {
     });
 
 }
-
+// for nothing 
 router.post('/subscribers', async (req, res) => {
     const data = req.body
     console.log(data);
