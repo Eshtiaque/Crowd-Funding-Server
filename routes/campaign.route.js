@@ -28,6 +28,13 @@ router.get("/campaigns/:id", async (req, res) => {
   res.send(result);
 });
 
+// user campaign post after approving by admin 
+router.post('/campaigns', async (req, res) => {
+  const data = req.body
+  const result = await campaignHistory.insertOne(data);
+  res.send(result);
+});
+
 router.post("/campaignsAdd", async (req, res) => {
   const data = req.body;
   const result = await campaignHistory.insertOne(data);
