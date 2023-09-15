@@ -88,4 +88,18 @@ router.patch("/allPost/:id", async (req, res) => {
   res.send(result);
 });
 
+
+//search text
+router.get('/searchText/:text', async (req, res) => {
+  const text = req.params.text;
+  const result = await socialBlogHistory
+    .find({
+      $or: [
+        { title: { $regex: text, $options: "i" } },
+      ],
+    })
+    .toArray();
+  res.send(result);
+});
+
 module.exports=router;
