@@ -49,4 +49,43 @@ router.get("/mySocialPost/:email", async (req, res) => {
   res.send(result);
 })
 
+//update  single toy
+router.get("/editPost/:id", async (req, res) => {
+  const id = (req.params.id);
+  const query = { _id: new ObjectId(id) }
+  const result = await socialBlogHistory.findOne(query);
+  res.send(result);
+})
+
+
+//delete the toy by selecting id
+router.delete("/myPost/:id", async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) }
+  const result = await socialBlogHistory.deleteOne(query);
+  res.send(result);
+})
+
+
+//put data in server
+router.patch("/allPost/:id", async (req, res) => {
+  const id = req.params.id;
+  const body = req.body;
+  console.log(body);
+  const filter = { _id: new ObjectId(id) };
+  const option = { upsert: true }
+  const updateDoc = {
+    $set: {
+      // date,email,blog,name
+      title: body.title,
+      name:body.name,
+      date: body.date,
+      email: body.email,
+      blog: body.blog
+    }
+  };
+  const result = await socialBlogHistory.updateOne(filter, updateDoc, option);
+  res.send(result);
+});
+
 module.exports=router;
