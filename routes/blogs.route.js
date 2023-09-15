@@ -60,8 +60,6 @@ router.patch("/blogsUpdate/:id", async (req, res) => {
   const result = await Blogs.updateOne(filter, updateAction, option);
   res.send(result);
 });
-
-
 router.get("/blogsSearch/:name", async (req, res) => {
   const userName = req.params.name; // Corrected to use req.params.name
   try {
@@ -73,6 +71,13 @@ router.get("/blogsSearch/:name", async (req, res) => {
   }
 
 });
+
+router.delete("/individualBlog/delete/:id",async(req,res)=>{
+  const id=req.params.id;
+  const query={_id: new ObjectId(id)};
+  const result= await Blogs.deleteOne(query);
+  res.status(200).send(result);
+})
 
 
 
