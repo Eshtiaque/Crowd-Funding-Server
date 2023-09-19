@@ -18,8 +18,8 @@ const transporter = nodemailer.createTransport(mg(auth));
 
 const sendEmailToUser = subscribers => {
     transporter.sendMail({
-        from: "mahdi.webx@gmail.com", // verified sender email
-        to: "mahdi.webx@gmail.com", // recipient email
+        from: "est.ahmed111@gmail.com", // verified sender email
+        to: "est.ahmed111@gmail.com", // recipient email
         subject: "Thank you for subscribe us", // Subject line
         text: "Hello world!", // plain text body
         html: `
