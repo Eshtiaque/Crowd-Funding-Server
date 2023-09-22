@@ -7,8 +7,9 @@ app.use(express.json());
 const client=require("./mongoDB/MongoDB");
 const userRouter=require("./routes/user.routes");
 const paymentRouter=require("./routes/payment.routes");
-const allCommentRouter=require("./routes/user.routes");
+const CommentRouter=require("./routes/user.routes");
 const blogsRouter=require("./routes/blogs.route");
+const comments=require("./routes/allComment.route")
 const campaignRouter=require("./routes/campaign.route");
 const eventRouter=require("./routes/events.route");
 const socialRouter=require("./routes/socialSite.route");
@@ -19,12 +20,13 @@ async function run() {
     try {
         app.use(userRouter);
         app.use(paymentRouter);
-        app.use(allCommentRouter);
+        app.use(CommentRouter);
         app.use(blogsRouter);
         app.use(campaignRouter);
         app.use(eventRouter);
         app.use(socialRouter);
         app.use(subscriberRouter);
+        app.use(comments);
         app.use(router);
       await client.db("admin").command({ ping: 1 });
       console.log("Pinged your deployment. You successfully connected to MongoDB!");
