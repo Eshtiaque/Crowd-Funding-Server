@@ -25,6 +25,13 @@ router.get("/allComments", async (req, res) => {
   res.send(result);
 });
 
+//delete the toy by selecting id
+router.delete("/deleteComments/:id", async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) }
+  const result = await allComment.deleteOne(query);
+  res.send(result);
+})
 
 
 
