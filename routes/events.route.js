@@ -11,6 +11,13 @@ router.get('/event', async (req, res) => {
   res.send(result);
 });
 
+router.get("/event/:id", async (req, res) => {
+  const id = req.params.id;
+  const result = await eventHistory.findOne({ _id: new ObjectId(id) });
+  res.send(result);
+});
+
+
 
 router.post("/eventAdd", async (req, res) => {
   const data = req.body;

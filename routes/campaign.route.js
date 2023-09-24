@@ -65,6 +65,12 @@ router.get("/individualCampaign/:email", async (req, res) => {
 
 })
 
+router.get("/campaignsAdd/:id", async (req, res) => {
+  const id = req.params.id;
+  const result = await campaignHistory.findOne({ _id: new ObjectId(id) });
+  res.send(result);
+});
+
 
 // new
 router.patch("/individualCampaign/:id", verifyJWT, verifyAdmin, async (req, res) => {
